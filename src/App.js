@@ -16,7 +16,7 @@ const App = () => {
     );
 
   return (
-      <SafeAreaView style={{backgroundColor: '#070502'}}>
+      <SafeAreaView style={{backgroundColor: '#382a1d',}}>
       <View style={{height: '100%'}}>
           <NavBar />
           <ScrollView
