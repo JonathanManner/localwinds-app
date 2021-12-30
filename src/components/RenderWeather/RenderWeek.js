@@ -27,7 +27,7 @@ export const RenderWeek = props => {
   const isValidDate = date => weather[date].length >= 4;
   // Add ".slice(1)" below to remove the todays date form the generated list
   const dates = Object.keys(weather).filter(isValidDate);
-  const [expanded, setExpanded] = useState(-1);
+  const [expanded, setExpanded] = useState(0);
 
   if (
     !weather ||
@@ -78,6 +78,7 @@ export const RenderWeek = props => {
                 .charAt(0)
                 .toUpperCase() +
                 moment().add(index, 'days').format('dddd').slice(1)}{' '}
+                {index === 0 ? '(idag) ' : null}
               {weatherDate.slice(8)} {getMonth(weatherDate.slice(5, 7))}
               <Text style={{fontSize: 14}}>
                 {expanded !== index ? ' ▼' : ' ▲'}

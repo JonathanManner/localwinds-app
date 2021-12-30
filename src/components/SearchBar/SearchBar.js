@@ -53,6 +53,7 @@ export const SearchBar = () => {
           flex: 6,    
           backgroundColor: 'white'}}
           placeholder="Sök och välj ort"
+          placeholderTextColor="gray"
         />
       <View style={{flex: 1}}></View>
     </View>
