@@ -4,6 +4,36 @@ import {useState} from 'react';
 import moment from 'moment';
 import 'moment/locale/sv';
 
+// Wsymb2 values:
+// Value	Meaning
+// 1	Clear sky
+// 2	Nearly clear sky
+// 3	Variable cloudiness
+// 4	Halfclear sky
+// 5	Cloudy sky
+// 6	Overcast
+// 7	Fog
+// 8	Light rain showers
+// 9	Moderate rain showers
+// 10	Heavy rain showers
+// 11	Thunderstorm
+// 12	Light sleet showers
+// 13	Moderate sleet showers
+// 14	Heavy sleet showers
+// 15	Light snow showers
+// 16	Moderate snow showers
+// 17	Heavy snow showers
+// 18	Light rain
+// 19	Moderate rain
+// 20	Heavy rain
+// 21	Thunder
+// 22	Light sleet
+// 23	Moderate sleet
+// 24	Heavy sleet
+// 25	Light snowfall
+// 26	Moderate snowfall
+// 27	Heavy snowfall
+
 const TIMES_TO_SHOW = ['00:00', '06:00', '12:00', '18:00'];
 const MONTH = [
   'Januari',
@@ -28,6 +58,7 @@ export const RenderWeek = props => {
   // Add ".slice(1)" below to remove the todays date form the generated list
   const dates = Object.keys(weather).filter(isValidDate);
   const [expanded, setExpanded] = useState(0);
+    
 
   if (
     !weather ||
@@ -90,6 +121,54 @@ export const RenderWeek = props => {
                 weatherData.validTime.indexOf('T') + 1,
                 weatherData.validTime.length - 4,
               );
+              const getWeatherSymbol = () => {
+
+                if (weatherData.parameters.Wsymb2.values[0] === 1 || 
+                    weatherData.parameters.Wsymb2.values[0] === 2 || 
+                    weatherData.parameters.Wsymb2.values[0] === 3 || 
+                    weatherData.parameters.Wsymb2.values[0] === 4) {
+                    console.log(weatherData.parameters.Wsymb2.values[0] + ' sunny')
+                    return (<Image
+                        source={require('../../icons/sunny.png')} />);
+                } else if (weatherData.parameters.Wsymb2.values[0] === 5 || 
+                    weatherData.parameters.Wsymb2.values[0] === 6 || 
+                    weatherData.parameters.Wsymb2.values[0] === 7) {
+                    console.log(weatherData.parameters.Wsymb2.values[0] + ' cloudy')
+                    return (<Image 
+                        source={require('../../icons/cloudy.png')} />);
+                } else if (weatherData.parameters.Wsymb2.values[0] === 8 || 
+                    weatherData.parameters.Wsymb2.values[0] === 9 || 
+                    weatherData.parameters.Wsymb2.values[0] === 10 || 
+                    weatherData.parameters.Wsymb2.values[0] === 11 || 
+                    weatherData.parameters.Wsymb2.values[0] === 18 || 
+                    weatherData.parameters.Wsymb2.values[0] === 19 || 
+                    weatherData.parameters.Wsymb2.values[0] === 20 || 
+                    weatherData.parameters.Wsymb2.values[0] === 21) {
+                    console.log(weatherData.parameters.Wsymb2.values[0] + ' lightrain')
+                    return (<Image 
+                        source={require('../../icons/lightrain.png')} />);
+                } else if (weatherData.parameters.Wsymb2.values[0] === 12 || 
+                    weatherData.parameters.Wsymb2.values[0] === 13 || 
+                    weatherData.parameters.Wsymb2.values[0] === 14 || 
+                    weatherData.parameters.Wsymb2.values[0] === 22 || 
+                    weatherData.parameters.Wsymb2.values[0] === 23 || 
+                    weatherData.parameters.Wsymb2.values[0] === 24) {
+                    console.log(weatherData.parameters.Wsymb2.values[0] + ' sleet')
+                    return (<Image 
+                        source={require('../../icons/sleet.png')} />);
+                } else if (weatherData.parameters.Wsymb2.values[0] === 15 || 
+                    weatherData.parameters.Wsymb2.values[0] === 16 || 
+                    weatherData.parameters.Wsymb2.values[0] === 17 || 
+                    weatherData.parameters.Wsymb2.values[0] === 25 || 
+                    weatherData.parameters.Wsymb2.values[0] === 26 || 
+                    weatherData.parameters.Wsymb2.values[0] === 27) {
+                    console.log(weatherData.parameters.Wsymb2.values[0] + ' snowy')
+                    return (<Image 
+                        source={require('../../icons/snowy.png')} />);
+                } else {
+                    console.log('error');
+                }
+            }
               if (TIMES_TO_SHOW.indexOf(time) === -1 && expanded !== index)
                 return null;
               //   TIME AND VALUES
@@ -112,16 +191,23 @@ export const RenderWeek = props => {
                   <View style={{flexDirection: 'row'}}>
                     <View>
                       <Text style={{marginRight: 16}}>
-                        {/* <Image 
-                                style={{}}
-                                source={require('../../icons/temp.png')} /> */}
                         {weatherData.parameters.t.values}°
                       </Text>
+                    </View>
+                    <View>
+                        <Text style={{marginRight: 8}}>
+                            {getWeatherSymbol()}
+                            {/* {weatherData.parameters.pmax.values} */}
+
+                        </Text>
                     </View>
                     <View style={{width: 110}}>
                       <Text style={{marginRight: 16}}>
                         {weatherData.parameters.ws.values}(
                         {weatherData.parameters.gust.values}) m/s
+                        {/* <Image 
+                                style={{}}
+                                source={require('../../icons/wind.png')} /> */}
                       </Text>
                     </View>
                     <View>
